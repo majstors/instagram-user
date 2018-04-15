@@ -1,7 +1,6 @@
 'use strict';
 const getEmails = require('get-emails');
 const got = require('got');
-const regex = /<script type="text\/javascript">window\._sharedData \=(.+)\;<\/script>/g;
 
 module.exports = user => {
 	if (typeof user !== 'string') {
@@ -11,7 +10,7 @@ module.exports = user => {
 	return got(`https://instagram.com/${user}`, { json: false })
 		.then(res => {
 
-			let m = regex.exec(res.body);
+			let m = /<script type="text\/javascript">window\._sharedData \=(.+)\;<\/script>/g.exec(res.body);
 			let __a = JSON.parse(m[1]);
 			res = {
 				body: {
